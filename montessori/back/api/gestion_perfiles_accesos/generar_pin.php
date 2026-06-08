@@ -8,7 +8,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 include_once '../../config/Database.php';
-include_once '../../models/Usuario.php'; 
+include_once '../../models/Usuario.php';
+include_once '../helpers/auth.php'; 
 
 $database = new Database();
 $db = $database->getConnection();

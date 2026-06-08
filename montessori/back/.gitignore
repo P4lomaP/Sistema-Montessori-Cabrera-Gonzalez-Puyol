@@ -1,1 +1,10 @@
-vendor/
+/vendor/
+
+.env
+.env.local
+
+error_log
+*.log
+
+.DS_Store
+Thumbs.db

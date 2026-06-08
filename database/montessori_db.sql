@@ -27,9 +27,10 @@ CREATE TABLE `alumnos` (
   `dni` varchar(20) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
+  `estado_activo` int(11) DEFAULT 1,
   PRIMARY KEY (`id_alumno`),
   UNIQUE KEY `dni_UNIQUE` (`dni`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +39,7 @@ CREATE TABLE `alumnos` (
 
 LOCK TABLES `alumnos` WRITE;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
+INSERT INTO `alumnos` VALUES (1,'45123456','Lucas','Gimenez',1);
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +61,7 @@ CREATE TABLE `asistencia_diaria` (
   KEY `fk_asistencia_diaria_usuarios1_idx` (`usuarios_id_usuario`),
   CONSTRAINT `fk_asistencia_diaria_matriculas1` FOREIGN KEY (`matriculas_id_matricula`) REFERENCES `matriculas` (`id_matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_asistencia_diaria_usuarios1` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,6 +70,7 @@ CREATE TABLE `asistencia_diaria` (
 
 LOCK TABLES `asistencia_diaria` WRITE;
 /*!40000 ALTER TABLE `asistencia_diaria` DISABLE KEYS */;
+INSERT INTO `asistencia_diaria` VALUES (1,'2026-06-08 08:00:00','Presente',1,1);
 /*!40000 ALTER TABLE `asistencia_diaria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +118,7 @@ CREATE TABLE `cursos` (
   `division` varchar(10) NOT NULL,
   `turno` varchar(20) NOT NULL,
   PRIMARY KEY (`id_curso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +127,7 @@ CREATE TABLE `cursos` (
 
 LOCK TABLES `cursos` WRITE;
 /*!40000 ALTER TABLE `cursos` DISABLE KEYS */;
+INSERT INTO `cursos` VALUES (1,1,'A','Mañana');
 /*!40000 ALTER TABLE `cursos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +262,7 @@ CREATE TABLE `incidencias_conducta` (
   KEY `fk_incidencias_conducta_usuarios1_idx` (`usuarios_id_usuario`),
   CONSTRAINT `fk_incidencias_conducta_matriculas1` FOREIGN KEY (`matriculas_id_matricula`) REFERENCES `matriculas` (`id_matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_incidencias_conducta_usuarios1` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,6 +271,7 @@ CREATE TABLE `incidencias_conducta` (
 
 LOCK TABLES `incidencias_conducta` WRITE;
 /*!40000 ALTER TABLE `incidencias_conducta` DISABLE KEYS */;
+INSERT INTO `incidencias_conducta` VALUES (1,'2026-06-08','Leve','El alumno estuvo interrumpiendo constantemente la clase tirando tizas.',1,1);
 /*!40000 ALTER TABLE `incidencias_conducta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +370,7 @@ CREATE TABLE `matriculas` (
   KEY `fk_matriculas_cursos1_idx` (`cursos_id_curso`),
   CONSTRAINT `fk_matriculas_alumnos1` FOREIGN KEY (`alumnos_id_alumno`) REFERENCES `alumnos` (`id_alumno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_matriculas_cursos1` FOREIGN KEY (`cursos_id_curso`) REFERENCES `cursos` (`id_curso`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,6 +379,7 @@ CREATE TABLE `matriculas` (
 
 LOCK TABLES `matriculas` WRITE;
 /*!40000 ALTER TABLE `matriculas` DISABLE KEYS */;
+INSERT INTO `matriculas` VALUES (1,2026,1,1);
 /*!40000 ALTER TABLE `matriculas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -563,12 +569,12 @@ CREATE TABLE `usuarios` (
   `apellido` varchar(50) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `estado_activo` tinyint(1) NOT NULL,
-  `intentos_fallidos` int(11) DEFAULT 0,
+  `intentos_fallidos` int(11) NOT NULL DEFAULT 0,
   `token_sesion` varchar(255) DEFAULT NULL,
   `token_expiracion` datetime DEFAULT NULL,
   `pin_recuperacion` varchar(10) DEFAULT NULL,
   `estado_desbloqueo` varchar(30) DEFAULT 'ninguno',
-  `debe_cambiar_clave` int(11) DEFAULT 0,
+  `debe_cambiar_clave` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `dni_UNIQUE` (`dni`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -580,7 +586,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'12345678','Juan','Pérez','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',1,0,NULL,NULL,NULL,'ninguno',0),(2,'1111','Maria','Gomez','$2y$10$bGSbJ48kvsribnHOpfVu6uEKvUDyNx7HAtc/Z79cGwHxqlhZhkKNe',1,1,NULL,NULL,NULL,'ninguno',0);
+INSERT INTO `usuarios` VALUES (1,'12345678','Juan','Pérez','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',1,0,'ff2021bd206f23ed8801452cf56b557eb549441054eb590cb9360c313be2c2e2','2026-06-08 01:09:33',NULL,'ninguno',0),(2,'1111','Maria','Gomez','$2y$10$bGSbJ48kvsribnHOpfVu6uEKvUDyNx7HAtc/Z79cGwHxqlhZhkKNe',1,1,NULL,NULL,NULL,'ninguno',0);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -621,4 +627,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-03  1:49:40
+-- Dump completed on 2026-06-08  0:29:02
