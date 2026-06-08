@@ -4,7 +4,7 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 
 include_once '../../config/Database.php';
-include_once '../../models/Usuario.php'; 
+include_once '../../models/Usuario.php';
 
 $database = new Database();
 $db = $database->getConnection();

@@ -5,6 +5,7 @@ header("Access-Control-Allow-Methods: GET");
 
 include_once '../../config/Database.php';
 include_once '../../models/Perfil.php'; 
+include_once '../helpers/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
