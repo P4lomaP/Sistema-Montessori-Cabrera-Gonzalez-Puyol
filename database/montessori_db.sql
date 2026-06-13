@@ -27,9 +27,17 @@ CREATE TABLE `alumnos` (
   `dni` varchar(20) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
+<<<<<<< Updated upstream
   PRIMARY KEY (`id_alumno`),
   UNIQUE KEY `dni_UNIQUE` (`dni`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+=======
+  `estado_activo` int(11) DEFAULT 1,
+  `restriccion_alimentaria` varchar(50) DEFAULT 'Ninguna',
+  PRIMARY KEY (`id_alumno`),
+  UNIQUE KEY `dni_UNIQUE` (`dni`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+>>>>>>> Stashed changes
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +46,10 @@ CREATE TABLE `alumnos` (
 
 LOCK TABLES `alumnos` WRITE;
 /*!40000 ALTER TABLE `alumnos` DISABLE KEYS */;
+<<<<<<< Updated upstream
+=======
+INSERT INTO `alumnos` VALUES (1,'45123456','Lucas','Gimenez',1,'Ninguna'),(2,'50222333','Sofia','Martinez',1,'Celíaca'),(3,'50333444','Mateo','Lopez',1,'Ninguna'),(4,'50444555','Valentina','Diaz',1,'Intolerante a la lactosa');
+>>>>>>> Stashed changes
 /*!40000 ALTER TABLE `alumnos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +71,11 @@ CREATE TABLE `asistencia_diaria` (
   KEY `fk_asistencia_diaria_usuarios1_idx` (`usuarios_id_usuario`),
   CONSTRAINT `fk_asistencia_diaria_matriculas1` FOREIGN KEY (`matriculas_id_matricula`) REFERENCES `matriculas` (`id_matricula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_asistencia_diaria_usuarios1` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
+<<<<<<< Updated upstream
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+>>>>>>> Stashed changes
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,38 +84,192 @@ CREATE TABLE `asistencia_diaria` (
 
 LOCK TABLES `asistencia_diaria` WRITE;
 /*!40000 ALTER TABLE `asistencia_diaria` DISABLE KEYS */;
+<<<<<<< Updated upstream
+=======
+INSERT INTO `asistencia_diaria` VALUES (1,'2026-06-08 08:00:00','Presente',1,1),(2,'2026-06-08 07:45:00','Presente',1,2),(3,'2026-06-08 07:45:00','Ausente',2,2),(4,'2026-06-08 07:45:00','Ausente',3,2),(5,'2026-06-08 07:45:00','Presente',4,2),(6,'2026-06-10 00:00:00','Presente',1,1),(7,'2026-06-10 00:00:00','Presente',2,1),(8,'2026-06-10 00:00:00','Ausente',3,1),(9,'2026-06-10 00:00:00','Presente',4,1);
+>>>>>>> Stashed changes
 /*!40000 ALTER TABLE `asistencia_diaria` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `comedor_registro`
+-- Table structure for table `asistencia_intervenciones`
 --
 
-DROP TABLE IF EXISTS `comedor_registro`;
+DROP TABLE IF EXISTS `asistencia_intervenciones`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `comedor_registro` (
-  `id_registro_comedor` int(11) NOT NULL AUTO_INCREMENT,
-  `fecha` datetime NOT NULL,
-  `cantidad_raciones` int(11) NOT NULL,
-  `cursos_id_curso` int(11) NOT NULL,
+CREATE TABLE `asistencia_intervenciones` (
+  `id_intervencion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_alumno` int(11) NOT NULL,
   `usuarios_id_usuario` int(11) NOT NULL,
-  `raciones_sobrantes` int(11) NOT NULL,
-  PRIMARY KEY (`id_registro_comedor`),
-  KEY `fk_comedor_registro_cursos_idx` (`cursos_id_curso`),
-  KEY `fk_comedor_registro_usuarios1_idx` (`usuarios_id_usuario`),
-  CONSTRAINT `fk_comedor_registro_cursos` FOREIGN KEY (`cursos_id_curso`) REFERENCES `cursos` (`id_curso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comedor_registro_usuarios1` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `fecha` datetime DEFAULT current_timestamp(),
+  `tipo_intervencion` varchar(50) NOT NULL,
+  `descripcion` text NOT NULL,
+  PRIMARY KEY (`id_intervencion`),
+  KEY `id_alumno` (`id_alumno`),
+  KEY `usuarios_id_usuario` (`usuarios_id_usuario`),
+  CONSTRAINT `asistencia_intervenciones_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumnos` (`id_alumno`),
+  CONSTRAINT `asistencia_intervenciones_ibfk_2` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `comedor_registro`
+-- Dumping data for table `asistencia_intervenciones`
 --
 
-LOCK TABLES `comedor_registro` WRITE;
-/*!40000 ALTER TABLE `comedor_registro` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comedor_registro` ENABLE KEYS */;
+LOCK TABLES `asistencia_intervenciones` WRITE;
+/*!40000 ALTER TABLE `asistencia_intervenciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `asistencia_intervenciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comedor_asistencia`
+--
+
+DROP TABLE IF EXISTS `comedor_asistencia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comedor_asistencia` (
+  `id_comedor_asistencia` int(11) NOT NULL AUTO_INCREMENT,
+  `matriculas_id_matricula` int(11) NOT NULL,
+  `usuarios_id_usuario` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `tipo_servicio` varchar(50) NOT NULL,
+  `asiste` tinyint(1) DEFAULT 1,
+  `hora_registro` datetime NOT NULL,
+  PRIMARY KEY (`id_comedor_asistencia`),
+  KEY `matriculas_id_matricula` (`matriculas_id_matricula`),
+  KEY `usuarios_id_usuario` (`usuarios_id_usuario`),
+  CONSTRAINT `comedor_asistencia_ibfk_1` FOREIGN KEY (`matriculas_id_matricula`) REFERENCES `matriculas` (`id_matricula`),
+  CONSTRAINT `comedor_asistencia_ibfk_2` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comedor_asistencia`
+--
+
+LOCK TABLES `comedor_asistencia` WRITE;
+/*!40000 ALTER TABLE `comedor_asistencia` DISABLE KEYS */;
+INSERT INTO `comedor_asistencia` VALUES (1,1,1,'2026-06-10','Almuerzo',1,'2026-06-10 23:58:43'),(2,2,1,'2026-06-10','Almuerzo',1,'2026-06-10 23:58:43'),(3,4,1,'2026-06-10','Almuerzo',1,'2026-06-10 23:58:43');
+/*!40000 ALTER TABLE `comedor_asistencia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comedor_excepciones`
+--
+
+DROP TABLE IF EXISTS `comedor_excepciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comedor_excepciones` (
+  `id_excepcion` int(11) NOT NULL AUTO_INCREMENT,
+  `usuarios_id_directivo` int(11) DEFAULT NULL,
+  `usuarios_id_docente` int(11) NOT NULL,
+  `fecha_autorizada` date NOT NULL,
+  `motivo` varchar(255) NOT NULL,
+  `estado` varchar(20) DEFAULT 'Activa',
+  PRIMARY KEY (`id_excepcion`),
+  KEY `usuarios_id_directivo` (`usuarios_id_directivo`),
+  KEY `usuarios_id_docente` (`usuarios_id_docente`),
+  CONSTRAINT `comedor_excepciones_ibfk_1` FOREIGN KEY (`usuarios_id_directivo`) REFERENCES `usuarios` (`id_usuario`),
+  CONSTRAINT `comedor_excepciones_ibfk_2` FOREIGN KEY (`usuarios_id_docente`) REFERENCES `usuarios` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comedor_excepciones`
+--
+
+LOCK TABLES `comedor_excepciones` WRITE;
+/*!40000 ALTER TABLE `comedor_excepciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comedor_excepciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comedor_inventario`
+--
+
+DROP TABLE IF EXISTS `comedor_inventario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comedor_inventario` (
+  `id_movimiento` int(11) NOT NULL AUTO_INCREMENT,
+  `usuarios_id_usuario` int(11) NOT NULL,
+  `fecha` datetime DEFAULT current_timestamp(),
+  `insumo` varchar(100) NOT NULL,
+  `cantidad` decimal(10,2) NOT NULL,
+  `numero_comprobante` varchar(50) DEFAULT NULL,
+  `unidad` varchar(30) NOT NULL DEFAULT 'Unidades',
+  PRIMARY KEY (`id_movimiento`),
+  KEY `usuarios_id_usuario` (`usuarios_id_usuario`),
+  CONSTRAINT `comedor_inventario_ibfk_1` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comedor_inventario`
+--
+
+LOCK TABLES `comedor_inventario` WRITE;
+/*!40000 ALTER TABLE `comedor_inventario` DISABLE KEYS */;
+INSERT INTO `comedor_inventario` VALUES (1,1,'2026-06-10 23:58:43','Fideos Tirabuzón',25.50,NULL,'Kilos'),(2,1,'2026-06-10 23:58:43','Salsa de Tomate',15.00,NULL,'Litros'),(3,1,'2026-06-10 23:58:43','Carne Picada',10.00,NULL,'Kilos'),(4,1,'2026-06-10 23:58:43','Leche Larga Vida',30.00,NULL,'Litros'),(5,1,'2026-06-10 23:58:43','Pan Flauta',50.00,NULL,'Unidades'),(6,1,'2026-06-10 23:58:43','Manzanas',12.00,NULL,'Kilos'),(7,1,'2026-06-12 20:04:14','Bananas',20.00,NULL,'Kilos');
+/*!40000 ALTER TABLE `comedor_inventario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comedor_menu`
+--
+
+DROP TABLE IF EXISTS `comedor_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comedor_menu` (
+  `id_menu` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` date NOT NULL,
+  `tipo_servicio` varchar(50) NOT NULL,
+  `descripcion` text NOT NULL,
+  PRIMARY KEY (`id_menu`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comedor_menu`
+--
+
+LOCK TABLES `comedor_menu` WRITE;
+/*!40000 ALTER TABLE `comedor_menu` DISABLE KEYS */;
+INSERT INTO `comedor_menu` VALUES (1,'2026-06-10','Desayuno','Mate cocido con leche y pan con mermelada'),(2,'2026-06-10','Almuerzo','Fideos con salsa bolognesa y fruta de postre'),(3,'2026-06-10','Merienda','Té con galletitas dulces');
+/*!40000 ALTER TABLE `comedor_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comedor_sobrantes`
+--
+
+DROP TABLE IF EXISTS `comedor_sobrantes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comedor_sobrantes` (
+  `id_sobrante` int(11) NOT NULL AUTO_INCREMENT,
+  `usuarios_id_usuario` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `tipo_servicio` varchar(50) NOT NULL,
+  `cantidad_raciones` int(11) NOT NULL,
+  `observacion` text DEFAULT NULL,
+  PRIMARY KEY (`id_sobrante`),
+  KEY `usuarios_id_usuario` (`usuarios_id_usuario`),
+  CONSTRAINT `comedor_sobrantes_ibfk_1` FOREIGN KEY (`usuarios_id_usuario`) REFERENCES `usuarios` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comedor_sobrantes`
+--
+
+LOCK TABLES `comedor_sobrantes` WRITE;
+/*!40000 ALTER TABLE `comedor_sobrantes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comedor_sobrantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -115,7 +285,11 @@ CREATE TABLE `cursos` (
   `division` varchar(10) NOT NULL,
   `turno` varchar(20) NOT NULL,
   PRIMARY KEY (`id_curso`)
+<<<<<<< Updated upstream
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+>>>>>>> Stashed changes
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +298,10 @@ CREATE TABLE `cursos` (
 
 LOCK TABLES `cursos` WRITE;
 /*!40000 ALTER TABLE `cursos` DISABLE KEYS */;
+<<<<<<< Updated upstream
+=======
+INSERT INTO `cursos` VALUES (1,1,'A','Mañana'),(2,2,'B','Tarde'),(3,3,'A','Mañana'),(4,4,'C','Tarde'),(5,5,'A','Mañana'),(6,6,'B','Tarde');
+>>>>>>> Stashed changes
 /*!40000 ALTER TABLE `cursos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +543,11 @@ CREATE TABLE `matriculas` (
   KEY `fk_matriculas_cursos1_idx` (`cursos_id_curso`),
   CONSTRAINT `fk_matriculas_alumnos1` FOREIGN KEY (`alumnos_id_alumno`) REFERENCES `alumnos` (`id_alumno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_matriculas_cursos1` FOREIGN KEY (`cursos_id_curso`) REFERENCES `cursos` (`id_curso`) ON DELETE NO ACTION ON UPDATE NO ACTION
+<<<<<<< Updated upstream
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+>>>>>>> Stashed changes
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,6 +556,10 @@ CREATE TABLE `matriculas` (
 
 LOCK TABLES `matriculas` WRITE;
 /*!40000 ALTER TABLE `matriculas` DISABLE KEYS */;
+<<<<<<< Updated upstream
+=======
+INSERT INTO `matriculas` VALUES (1,2026,1,1),(2,2026,2,1),(3,2026,3,2),(4,2026,4,2);
+>>>>>>> Stashed changes
 /*!40000 ALTER TABLE `matriculas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,7 +587,7 @@ CREATE TABLE `perfil_permiso` (
 
 LOCK TABLES `perfil_permiso` WRITE;
 /*!40000 ALTER TABLE `perfil_permiso` DISABLE KEYS */;
-INSERT INTO `perfil_permiso` VALUES (1,1),(1,2);
+INSERT INTO `perfil_permiso` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21),(1,41),(1,42),(1,43),(1,44),(1,45),(1,46),(1,47),(2,1),(2,2),(2,3),(2,13),(2,14),(2,17),(2,22),(2,32),(2,33),(2,36),(3,3),(3,15),(3,18),(3,19),(3,20),(3,22),(3,34),(3,37),(3,38),(3,39);
 /*!40000 ALTER TABLE `perfil_permiso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,8 +602,9 @@ CREATE TABLE `perfiles` (
   `id_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_perfil` varchar(50) NOT NULL,
   `descripcion` varchar(100) NOT NULL,
+  `estado_activo` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_perfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -426,7 +613,7 @@ CREATE TABLE `perfiles` (
 
 LOCK TABLES `perfiles` WRITE;
 /*!40000 ALTER TABLE `perfiles` DISABLE KEYS */;
-INSERT INTO `perfiles` VALUES (1,'Directivo','Acceso total al sistema'),(2,'Directivo','Acceso total');
+INSERT INTO `perfiles` VALUES (1,'Gestión institucional completa','Acceso total al sistema',1),(2,'Gestión de asistencia y comedor','Acceso total',1),(3,'Gestión de raciones y stock','Administración del menú institucional y stock.',1);
 /*!40000 ALTER TABLE `perfiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -439,10 +626,11 @@ DROP TABLE IF EXISTS `permisos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permisos` (
   `id_permiso` int(11) NOT NULL AUTO_INCREMENT,
-  `modulo` varchar(45) NOT NULL,
+  `modulo` enum('dashboard','usuarios','perfiles','permisos','asistencia','comedor','armario','biblioteca','horarios','documentos','actividades') NOT NULL,
   `accion` varchar(45) NOT NULL,
+  `estado_activo` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id_permiso`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -451,7 +639,7 @@ CREATE TABLE `permisos` (
 
 LOCK TABLES `permisos` WRITE;
 /*!40000 ALTER TABLE `permisos` DISABLE KEYS */;
-INSERT INTO `permisos` VALUES (1,'asistencia','ver'),(2,'asistencia','cargar');
+INSERT INTO `permisos` VALUES (1,'asistencia','ver',1),(2,'asistencia','cargar',1),(3,'dashboard','ver',1),(4,'usuarios','ver',1),(5,'usuarios','editar',1),(6,'usuarios','aprobar',1),(7,'perfiles','ver',1),(8,'perfiles','crear',1),(9,'perfiles','asignar',1),(10,'perfiles','eliminar',1),(11,'permisos','ver',1),(12,'permisos','asignar',1),(13,'asistencia','intervenir',1),(14,'asistencia','alertas',1),(15,'comedor','ver_totales',1),(16,'comedor','ver_historial',1),(17,'comedor','cargar_comensales',1),(18,'comedor','gestionar_menu',1),(19,'comedor','gestionar_inventario',1),(20,'comedor','registrar_sobrantes',1),(21,'comedor','aprobar_excepciones',1),(22,'dashboard','ver',1),(23,'usuarios','ver',1),(24,'usuarios','editar',1),(25,'usuarios','aprobar',1),(26,'perfiles','ver',1),(27,'perfiles','crear',1),(28,'perfiles','asignar',1),(29,'perfiles','eliminar',1),(30,'permisos','ver',1),(31,'permisos','asignar',1),(32,'asistencia','intervenir',1),(33,'asistencia','alertas',1),(34,'comedor','ver_totales',1),(35,'comedor','ver_historial',1),(36,'comedor','cargar_comensales',1),(37,'comedor','gestionar_menu',1),(38,'comedor','gestionar_inventario',1),(39,'comedor','registrar_sobrantes',1),(40,'comedor','aprobar_excepciones',1),(41,'usuarios','activar',1),(42,'usuarios','desbloquear',1),(43,'comedor','ver',1),(44,'biblioteca','ver',1),(45,'documentos','ver',1),(46,'horarios','ver',1),(47,'actividades','ver',1);
 /*!40000 ALTER TABLE `permisos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -545,7 +733,7 @@ CREATE TABLE `usuario_perfil` (
 
 LOCK TABLES `usuario_perfil` WRITE;
 /*!40000 ALTER TABLE `usuario_perfil` DISABLE KEYS */;
-INSERT INTO `usuario_perfil` VALUES (1,1);
+INSERT INTO `usuario_perfil` VALUES (1,1),(2,2);
 /*!40000 ALTER TABLE `usuario_perfil` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -561,6 +749,7 @@ CREATE TABLE `usuarios` (
   `dni` varchar(20) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
+  `correo` varchar(100) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
   `estado_activo` tinyint(1) NOT NULL,
   `intentos_fallidos` int(11) DEFAULT 0,
@@ -580,7 +769,11 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+<<<<<<< Updated upstream
 INSERT INTO `usuarios` VALUES (1,'12345678','Juan','Pérez','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',1,0,NULL,NULL,NULL,'ninguno',0),(2,'1111','Maria','Gomez','$2y$10$bGSbJ48kvsribnHOpfVu6uEKvUDyNx7HAtc/Z79cGwHxqlhZhkKNe',1,1,NULL,NULL,NULL,'ninguno',0);
+=======
+INSERT INTO `usuarios` VALUES (1,'12345678','Juan','Pérez','juanperez@gmail.com','$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',1,0,'dcd5cd6c17d7494863d8421648bc8972195cc29a3dc4633ed93224ea086d922a','2026-06-13 02:47:06',NULL,'ninguno',0),(2,'11122233','Maria','Gomez','mariagomez@gmail.com','$2y$10$bGSbJ48kvsribnHOpfVu6uEKvUDyNx7HAtc/Z79cGwHxqlhZhkKNe',1,1,NULL,NULL,NULL,'ninguno',0);
+>>>>>>> Stashed changes
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -621,4 +814,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< Updated upstream
 -- Dump completed on 2026-06-03  1:49:40
+=======
+-- Dump completed on 2026-06-13 19:49:27
+>>>>>>> Stashed changes

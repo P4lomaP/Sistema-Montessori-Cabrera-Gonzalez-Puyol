@@ -1,0 +1,74 @@
+/*
+  Estilos personalizados de la landing Montessori.
+  Mantener acá las animaciones y efectos propios.
+*/
+/* ANIMACIÓN 1: Gradiente de Metal Líquido de Flujo Continuo */
+        @keyframes liquidFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .btn-liquid-premium {
+            background: linear-gradient(-45deg, #1d4ed8, #2563eb, #3b82f6, #10b981);
+            background-size: 300% 300%;
+            animation: liquidFlow 5s ease infinite;
+        }
+
+        /* ANIMACIÓN 2: Desplazamiento Infinito Ultra Fluid para Fotos Reales */
+        @keyframes marqueeLinear {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marqueeLinear 50s linear infinite;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+
+        /* EL TRUCO LOCO DE LA PROFE: Animación de revelación con difuminado cinético (Fade-in & Blur) */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(10px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                        filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1 !important;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* Micro-interacción Avanzada: Aura de Luz Interactiva basada en variables JS */
+        .interactive-glow-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s;
+        }
+        .interactive-glow-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(37, 99, 235, 0.06), transparent 40%);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .dark .interactive-glow-card::after {
+            background: radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(59, 130, 246, 0.12), transparent 40%);
+        }
+        .interactive-glow-card:hover::after { opacity: 1; }
+        .interactive-glow-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -15px rgba(37, 99, 235, 0.12);
+        }
+
+        /* Suavizado global transicional para cambios de color del Modo Oscuro */
+        body, nav, section, div, h1, h2, h3, p, a, button, input {
+            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, color 0.4s ease;
+        }
