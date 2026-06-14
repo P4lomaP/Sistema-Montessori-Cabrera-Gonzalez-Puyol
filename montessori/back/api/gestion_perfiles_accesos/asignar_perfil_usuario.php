@@ -5,10 +5,7 @@ header("Access-Control-Allow-Methods: POST");
 
 include_once '../../config/Database.php';
 include_once '../../models/Usuario.php'; 
-<<<<<<< Updated upstream
-=======
 include_once '../helpers/auth.php';
->>>>>>> Stashed changes
 
 $database = new Database();
 $db = $database->getConnection();

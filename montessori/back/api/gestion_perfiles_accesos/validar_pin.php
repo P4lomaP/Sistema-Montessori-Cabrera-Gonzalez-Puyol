@@ -3,10 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../../config/Database.php';
-<<<<<<< Updated upstream
 include_once '../../models/Usuario.php'; 
-=======
->>>>>>> Stashed changes
 
 $database = new Database();
 $db = $database->getConnection();

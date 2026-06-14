@@ -10,11 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 include_once '../../config/Database.php';
-<<<<<<< Updated upstream
 include_once '../../models/Usuario.php'; 
-=======
-include_once '../../models/Usuario.php';
->>>>>>> Stashed changes
 
 $database = new Database();
 $db = $database->getConnection();

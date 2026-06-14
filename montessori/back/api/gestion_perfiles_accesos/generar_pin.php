@@ -10,11 +10,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 include_once '../../config/Database.php';
-<<<<<<< Updated upstream
 include_once '../../models/Usuario.php'; 
-=======
-include_once '../../models/Usuario.php';
->>>>>>> Stashed changes
 
 $database = new Database();
 $db = $database->getConnection();
